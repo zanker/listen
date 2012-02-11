@@ -298,7 +298,7 @@ describe Listen::Listener do
             @listener.paths[path]['existing_file.txt'].mtime.should be > @mtime
           end
         end
-        context "during the same second" do
+        context "during the same second", :focus do
           before { ensure_same_second }
 
           it "always detects the modified file the first time" do
@@ -316,6 +316,7 @@ describe Listen::Listener do
           end
           it "doesn't detects the modified file the second time if the content haven't changed" do
             fixtures do |path|
+              puts Time.now.to_f
               touch 'existing_file.txt'
 
               @listener = Listen::Listener.new(path)
@@ -328,6 +329,8 @@ describe Listen::Listener do
                 touch 'existing_file.txt'
               end
 
+              puts Time.now.to_f
+              
               added.should be_empty
               modified.should be_empty
               removed.should be_empty
@@ -335,6 +338,8 @@ describe Listen::Listener do
           end
           it "detects the modified file the second time if the content have changed" do
             fixtures do |path|
+              puts Time.now.to_f
+
               touch 'existing_file.txt'
 
               @listener = Listen::Listener.new(path)
@@ -346,6 +351,9 @@ describe Listen::Listener do
               modified, added, removed = diff(path) do
                 open('existing_file.txt', 'w') { |f| f.write('foo') }
               end
+
+              puts Time.now.to_f
+
 
               added.should be_empty
               modified.should =~ %w(existing_file.txt)

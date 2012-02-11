@@ -211,7 +211,9 @@ module Listen
     # @param [String] path the file path
     #
     def content_modified?(path)
+      puts "sha1_checksums: #{@sha1_checksums[path]}"
       sha1_checksum = Digest::SHA1.file(path).to_s
+      puts "sha1_checksum: #{sha1_checksum}"
       if @sha1_checksums[path] != sha1_checksum
         @sha1_checksums[path] = sha1_checksum
         true
