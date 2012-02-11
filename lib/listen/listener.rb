@@ -193,7 +193,7 @@ module Listen
           if File.exist?(path)
             new_stat = File.stat(path)
 
-            # p "stat: #{stat.mtime}"
+            p "stat: #{stat.mtime}"
             # p "new_stat: #{new_stat.mtime}"
 
             if stat.mtime < new_stat.mtime || (stat.mtime.to_i == Time.now.to_i && content_modified?(path))
