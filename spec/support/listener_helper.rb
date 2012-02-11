@@ -9,7 +9,6 @@ def diff(root_path, options = {})
   removed  = []
 
   unless @listener
-    puts "YO"
     @listener = Listen::Listener.new(root_path)
     @listener.init_paths
   end

@@ -180,7 +180,7 @@ module Listen
     def detect_modifications_and_removals(directory, options = {})
       @paths[directory].each do |basename, stat|
         path = File.join(directory, basename)
-
+        p path
         if stat.directory?
           if File.directory?(path)
             detect_modifications_and_removals(path, options) if options[:recursive]
@@ -192,6 +192,8 @@ module Listen
         else # File
           if File.exist?(path)
             new_stat = File.stat(path)
+            p "stat: #{stat.mtime}"
+            p "new_stat: #{new_stat.mtime}"
             if stat.mtime < new_stat.mtime || (stat.mtime.to_i == Time.now.to_i && content_modified?(path))
               @changes[:modified] << relative_path(path)
               @paths[directory][basename] = new_stat
