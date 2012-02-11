@@ -298,7 +298,7 @@ describe Listen::Listener do
             @listener.paths[path]['existing_file.txt'].mtime.should be > @mtime
           end
         end
-        context "during the same second", :focus do
+        context "during the same second" do
           before { ensure_same_second }
 
           it "always detects the modified file the first time" do
