@@ -192,8 +192,7 @@ module Listen
         else # File
           if File.exist?(path)
             new_stat = File.stat(path)
-  
-  
+
             p "stat: #{stat.mtime.to_i}"
             p "new_stat: #{new_stat.mtime.to_i}"
 
