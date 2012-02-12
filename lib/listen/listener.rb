@@ -195,8 +195,10 @@ module Listen
           if File.exist?(path)
             new_stat  = File.stat(path)
             new_mtime = new_stat.mtime.to_i
+
             p "diffet_at: #{@diffet_at}"
             p "new_mtime: #{new_mtime}"
+
             if @diffet_at < new_mtime || (@diffet_at == new_mtime && content_modified?(path))
               @changes[:modified] << relative_path(path)
               @paths[directory][basename] = new_stat
@@ -217,8 +219,10 @@ module Listen
     #
     def content_modified?(path)
       sha1_checksum = Digest::SHA1.file(path).to_s
+
       p "sha1_checksums: #{@sha1_checksums[path]}"
       p "sha1_checksum: #{sha1_checksum}"
+
       if @sha1_checksums[path] != sha1_checksum
         @sha1_checksums[path] = sha1_checksum
         true
