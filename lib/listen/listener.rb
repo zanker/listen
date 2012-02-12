@@ -108,11 +108,12 @@ module Listen
       end
     end
 
-    # Initialize the @paths double levels Hash with all existing paths.
+    # Initialize the @paths double levels Hash with all existing paths and set diffed_at.
     #
     def init_paths
       @paths = Hash.new { |h,k| h[k] = {} }
       all_existing_paths { |path| insert_path(path) }
+      @diffet_at = Time.now.to_i
     end
 
     # Detect changes diff in a directory.
@@ -129,6 +130,7 @@ module Listen
         detect_modifications_and_removals(directory, options)
         detect_additions(directory, options)
       end
+      @diffet_at = Time.now.to_i
       @changes
     end
 
@@ -192,9 +194,8 @@ module Listen
         else # File
           if File.exist?(path)
             new_stat  = File.stat(path)
-            mtime     = stat.mtime.to_i
             new_mtime = new_stat.mtime.to_i
-            if mtime < new_mtime || (mtime == new_mtime && content_modified?(path))
+            if @diffet_at < new_mtime || (@diffet_at == new_mtime && content_modified?(path))
               @changes[:modified] << relative_path(path)
               @paths[directory][basename] = new_stat
             end
