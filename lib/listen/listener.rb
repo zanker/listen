@@ -223,6 +223,7 @@ module Listen
       # p "sha1_checksums: #{@sha1_checksums[path]}"
       # p "sha1_checksum: #{sha1_checksum}"
 
+
       if @sha1_checksums[path] != sha1_checksum
         @sha1_checksums[path] = sha1_checksum
         true
