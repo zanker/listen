@@ -196,8 +196,8 @@ module Listen
             new_stat  = File.stat(path)
             new_mtime = new_stat.mtime.to_i
 
-            p "diffet_at: #{@diffet_at}"
-            p "new_mtime: #{new_mtime}"
+            # p "diffet_at: #{@diffet_at}"
+            # p "new_mtime: #{new_mtime}"
 
             if @diffet_at < new_mtime || (@diffet_at == new_mtime && content_modified?(path))
               @changes[:modified] << relative_path(path)
