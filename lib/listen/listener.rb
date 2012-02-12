@@ -161,7 +161,7 @@ module Listen
     # @param [String] path the path to insert in @paths.
     #
     def insert_path(path)
-      @paths[File.dirname(path)][File.basename(path)] = File.stat(path)
+      @paths[File.dirname(path)][File.basename(path)] = File.directory?(path) ? "Dir" : "File"
     end
 
     # Find is a path exists in @paths.
@@ -180,10 +180,11 @@ module Listen
     # @option options [Boolean] recursive scan all sub-direcoties recursively (when polling)
     #
     def detect_modifications_and_removals(directory, options = {})
-      @paths[directory].each do |basename, stat|
+      @paths[directory].each do |basename, type|
         path = File.join(directory, basename)
-
-        if stat.directory?
+        
+        case type
+        when "Dir"
           if File.directory?(path)
             detect_modifications_and_removals(path, options) if options[:recursive]
           else
@@ -191,17 +192,11 @@ module Listen
             @paths[directory].delete(basename)
             @paths.delete("#{directory}/#{basename}")
           end
-        else # File
+        when "File"
           if File.exist?(path)
-            new_stat  = File.stat(path)
-            new_mtime = new_stat.mtime.to_i
-
-            # p "diffet_at: #{@diffet_at}"
-            # p "new_mtime: #{new_mtime}"
-
+            new_mtime = File.mtime(path).to_i
             if @diffet_at < new_mtime || (@diffet_at == new_mtime && content_modified?(path))
               @changes[:modified] << relative_path(path)
-              @paths[directory][basename] = new_stat
             end
           else
             @paths[directory].delete(basename)
