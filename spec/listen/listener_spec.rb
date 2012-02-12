@@ -274,7 +274,7 @@ describe Listen::Listener do
             touch 'existing_file.txt'
 
             modified, added, removed = diff(path) do
-              sleep 1.1 # make @diffed_at old
+              sleep 1.5 # make @diffed_at old
               touch 'existing_file.txt'
             end
 
@@ -286,7 +286,7 @@ describe Listen::Listener do
         it "updates the file stats on @paths" do
           fixtures do |path|
             touch 'existing_file.txt'
-            sleep 1.1 # make file.mtime old
+            sleep 1.5 # make file.mtime old
 
             diff(path) do
               @listener.paths[path]['existing_file.txt'].should_not be_nil
@@ -374,7 +374,7 @@ describe Listen::Listener do
           it 'does not detect the mode change' do
             fixtures do |path|
               touch 'run.rb'
-              sleep 1.1 # make file.mtime old
+              sleep 1.5 # make file.mtime old
 
               modified, added, removed = diff(path) do
                 chmod 0777, 'run.rb'
@@ -690,7 +690,7 @@ describe Listen::Listener do
           mkdir 'a_directory'
           touch 'a_directory/a_file.rb'
           touch 'a_directory/b_file.rb'
-          sleep 1.1 # make files mtime old
+          sleep 1.5 # make files mtime old
 
           modified, added, removed = diff(path) do
             touch 'b_file.rb'
@@ -710,7 +710,7 @@ describe Listen::Listener do
           mkdir 'a_directory'
           touch 'a_directory/a_file.rb'
           touch 'a_directory/b_file.rb'
-          sleep 1.1 # make files mtime old
+          sleep 1.5 # make files mtime old
 
           modified, added, removed = diff(path) do
             rm 'b_file.rb'
