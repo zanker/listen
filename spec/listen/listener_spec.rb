@@ -283,21 +283,21 @@ describe Listen::Listener do
             removed.should be_empty
           end
         end
-        # it "updates the file stats on @paths" do
-        #   fixtures do |path|
-        #     touch 'existing_file.txt'
-        #     sleep 1.1 # make file.mtime old
-        # 
-        #     diff(path) do
-        #       @listener.paths[path]['existing_file.txt'].should_not be_nil
-        # 
-        #       @mtime = @listener.paths[path]['existing_file.txt'].mtime
-        #       touch 'existing_file.txt'
-        #     end
-        # 
-        #     @listener.paths[path]['existing_file.txt'].mtime.should be > @mtime
-        #   end
-        # end
+        it "updates the file stats on @paths" do
+          fixtures do |path|
+            touch 'existing_file.txt'
+            sleep 1.1 # make file.mtime old
+
+            diff(path) do
+              @listener.paths[path]['existing_file.txt'].should_not be_nil
+
+              @mtime = @listener.paths[path]['existing_file.txt'].mtime
+              touch 'existing_file.txt'
+            end
+
+            @listener.paths[path]['existing_file.txt'].mtime.should be > @mtime
+          end
+        end
         context "during the same second" do
           before { ensure_same_second }
 
