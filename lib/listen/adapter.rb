@@ -166,7 +166,7 @@ module Listen
     def self.works?(directory, options = {})
       work = false
       test_file = "#{directory}/.listen_test"
-      callback = lambda { |changed_dirs, options| work = true }
+      callback = lambda { |changed_dirs, options| work = true; p "work = true" }
       adapter  = self.new(directory, options, &callback)
       adapter.start(false)
 
@@ -174,7 +174,12 @@ module Listen
 
       t = Thread.new { sleep(adapter.latency * 5); adapter.stop }
 
+      # sleep adapter.latency * 2
+      p "before wait_for_callback: work == #{work}"
       adapter.wait_for_callback
+      p "after wait_for_callback: work == #{work}"
+      sleep 0.5
+      p "after sleep: work == #{work}"
       work
     ensure
       Thread.kill(t) if t

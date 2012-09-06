@@ -151,7 +151,7 @@ describe Listen::Adapter do
         end
       end
 
-      describe '.works?' do
+      describe '.works?' , :focus do
         it 'does work' do
           fixtures do |path|
             adapter_class.works?(path).should be_true
