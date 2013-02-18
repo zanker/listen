@@ -13,3 +13,7 @@ end
 def windows?
   RbConfig::CONFIG['target_os'] =~ /mswin|mingw/i
 end
+
+def jruby_with_java51?
+  RUBY_ENGINE == "jruby" and java.lang.System.getProperties["java.class.version"].to_f >= 51
+end

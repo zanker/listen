@@ -49,6 +49,8 @@ module Listen
           return Adapters::BSD.new(directories, options, &callback)
         elsif Adapters::Windows.usable_and_works?(directories, options)
           return Adapters::Windows.new(directories, options, &callback)
+        elsif Adapters::Java.usable_and_works?(directories, options)
+          return Adapters::Java.new(directories, options, &callback)
         end
       rescue DependencyManager::Error => e
         warning += e.message + "\n" + MISSING_DEPENDENCY_MESSAGE

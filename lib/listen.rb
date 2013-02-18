@@ -12,6 +12,7 @@ module Listen
     autoload :Linux,   'listen/adapters/linux'
     autoload :BSD,     'listen/adapters/bsd'
     autoload :Windows, 'listen/adapters/windows'
+    autoload :Java, 'listen/adapters/java'
     autoload :Polling, 'listen/adapters/polling'
   end
 
