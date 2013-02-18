@@ -14,12 +14,12 @@ gem 'wdm',        '~> 0.0.3' if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/i
 group :development do
   platform :ruby do
     gem 'coolline'
+    gem 'redcarpet'
   end
 
   gem 'guard'
   gem 'guard-rspec'
   gem 'yard'
-  gem 'redcarpet'
   gem 'pry'
 
   gem 'vagrant'
